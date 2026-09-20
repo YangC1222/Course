@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="《高等数值分析》数学基础知识笔记：线性空间、度量、范数、内积、正交多项式与矩阵范数。">
+  <title>高等数值分析 · 数学基础知识笔记</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1f33'/%3E%3Cpath d='M14 45L25 18l9 23 7-16 9 20' fill='none' stroke='%236ed6c6' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="返回顶部">
+      <span class="brand-mark">∥·∥</span>
+      <span>高等数值分析</span>
+    </a>
+    <nav class="topnav" aria-label="章节导航">
+      <a href="#map">知识图谱</a><a href="#linear">线性空间</a><a href="#metric">度量与完备性</a>
+      <a href="#norm">范数</a><a href="#inner">内积与正交</a><a href="#matrix">矩阵范数</a>
+    </nav>
+    <button id="focusToggle" class="focus-button" type="button" aria-pressed="false">专注阅读</button>
+  </header>
+
+  <div class="page-shell" id="top">
+    <aside class="rail" aria-label="学习进度">
+      <div class="rail-card">
+        <p class="eyebrow">建议顺序</p>
+        <ol class="progress-list">
+          <li><a href="#linear"><span>01</span>对象与结构</a></li>
+          <li><a href="#metric"><span>02</span>距离与极限</a></li>
+          <li><a href="#norm"><span>03</span>大小与误差</a></li>
+          <li><a href="#inner"><span>04</span>角度与投影</a></li>
+          <li><a href="#matrix"><span>05</span>算子与稳定性</a></li>
+        </ol>
+        <div class="rail-note">
+          <strong>一条主线</strong>
+          <p>先规定“能否线性组合”，再规定“多远、多大、是否正交”，最后研究矩阵如何放大误差。</p>
+        </div>
+      </div>
+    </aside>
+
+    <main id="main">
+      <section class="intro" aria-labelledby="intro-title">
+        <div>
+          <p class="eyebrow">Math Basics · 课程讲义整理</p>
+          <h1 id="intro-title">从“空间”到“稳定性”</h1>
+          <p class="lede">这份笔记不是公式清单，而是一张结构图：每引入一种数学结构，都回答一个数值分析中更具体的问题。</p>
+        </div>
+        <div class="question-stack" aria-label="核心问题">
+          <span>什么对象可以相加？</span><span>两个对象相差多远？</span><span>误差有多大？</span>
+          <span>如何投影与逼近？</span><span>矩阵会把误差放大多少？</span>
+        </div>
+      </section>
+
+      <section id="map" class="map-section section-card" aria-labelledby="map-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Knowledge Graph</p><h2 id="map-title">知识图谱</h2></div>
+          <p>点击节点可跳到对应内容；连线表示“定义依赖”或“推导关系”。</p>
+        </div>
+        <div class="graph-wrap">
+          <svg class="knowledge-graph" viewBox="0 0 1000 520" role="img" aria-labelledby="graph-title graph-desc">
+            <title id="graph-title">高等数值分析数学基础知识图谱</title>
+            <desc id="graph-desc">线性空间依次连接度量、范数、内积和矩阵范数，并延伸到完备性、正交化、正交多项式与稳定性。</desc>
+            <g class="edges">
+              <path d="M130 255 C215 255 220 142 310 142"/><path d="M130 255 C215 255 220 365 310 365"/>
+              <path d="M390 142 C480 142 475 255 565 255"/><path d="M390 365 C480 365 475 255 565 255"/>
+              <path d="M645 255 C725 255 720 130 805 130"/><path d="M645 255 C725 255 720 255 805 255"/>
+              <path d="M645 255 C725 255 720 385 805 385"/><path d="M350 175 L350 325"/>
+              <path d="M845 170 L845 215"/><path d="M845 295 L845 345"/>
+            </g>
+            <g class="nodes">
+              <a href="#linear"><g class="node core"><rect x="50" y="215" width="160" height="80" rx="22"/><text x="130" y="248">线性空间</text><text class="small" x="130" y="272">组合 · 基 · 维数</text></g></a>
+              <a href="#metric"><g class="node"><rect x="270" y="102" width="160" height="80" rx="22"/><text x="350" y="135">度量空间</text><text class="small" x="350" y="159">距离 · Cauchy</text></g></a>
+              <a href="#norm"><g class="node"><rect x="270" y="325" width="160" height="80" rx="22"/><text x="350" y="358">赋范空间</text><text class="small" x="350" y="382">大小 · 误差</text></g></a>
+              <a href="#inner"><g class="node core"><rect x="525" y="215" width="160" height="80" rx="22"/><text x="605" y="248">内积空间</text><text class="small" x="605" y="272">角度 · 投影</text></g></a>
+              <a href="#complete"><g class="node leaf"><rect x="770" y="90" width="150" height="80" rx="22"/><text x="845" y="123">完备性</text><text class="small" x="845" y="147">Banach 空间</text></g></a>
+              <a href="#orthogonal"><g class="node leaf"><rect x="770" y="215" width="150" height="80" rx="22"/><text x="845" y="248">正交化</text><text class="small" x="845" y="272">Gram–Schmidt</text></g></a>
+              <a href="#matrix"><g class="node leaf"><rect x="770" y="345" width="150" height="80" rx="22"/><text x="845" y="378">矩阵范数</text><text class="small" x="845" y="402">放大率 · 稳定性</text></g></a>
+            </g>
+          </svg>
+        </div>
+        <div class="map-legend"><span><i class="dot core-dot"></i>主干结构</span><span><i class="dot"></i>派生结构</span><span>→ 结构增加，能讨论的问题也增加</span></div>
+      </section>
+
+      <section class="bridge">
+        <div><span>线性空间</span><small>能做线性组合</small></div><b>＋</b>
+        <div><span>范数</span><small>能衡量大小</small></div><b>＋</b>
+        <div><span>完备性</span><small>极限不会跑出空间</small></div><b>＝</b>
+        <div class="result"><span>Banach 空间</span><small>迭代分析的基本舞台</small></div>
+      </section>
+
+      <article id="linear" class="chapter" data-chapter="01">
+        <header class="chapter-head"><div><p class="eyebrow">Chapter 01</p><h2>线性空间：先确定“允许怎样组合”</h2></div><span class="chapter-tag">讲义 4–9</span></header>
+        <div class="concept-grid">
+          <section class="concept primary">
+            <h3>定义的核心</h3>
+            <p>在数域 <em>𝔽</em>（通常是 ℝ 或 ℂ）上，一个集合 <em>V</em> 若对向量加法和数乘封闭，并满足交换、结合、分配、零元与逆元等规则，就构成线性空间。</p>
+            <div class="formula">αx + βy ∈ V，∀x,y∈V，α,β∈𝔽</div>
+            <p class="plain"><strong>通俗地说：</strong>关键不在对象长得像不像箭头，而在于它们能否稳定地做线性组合。向量、矩阵、多项式、连续函数都可以是“向量”。</p>
+          </section>
+          <section class="concept">
+            <h3>线性无关</h3>
+            <p>若 <span class="math">a₁x₁+⋯+aₙxₙ=0</span> 只能推出所有系数都为 0，则 <span class="math">{xᵢ}</span> 线性无关。</p>
+            <p class="plain"><strong>判断含义：</strong>没有一个元素能被其余元素线性表示；信息没有重复。</p>
+          </section>
+          <section class="concept">
+            <h3>基与维数</h3>
+            <p>一组既线性无关、又能表示空间内全部元素的向量称为基；基中元素个数是维数。</p>
+            <div class="formula">p(x)=a₀+a₁x+⋯+aₙxⁿ ⇒ dim Pₙ=n+1</div>
+          </section>
+        </div>
+        <div class="example-strip">
+          <div><strong>有限维例子</strong><span>ℝⁿ、ℂⁿ、n×n 矩阵空间、次数不超过 n 的多项式 Pₙ</span></div>
+          <div><strong>无限维例子</strong><span>连续函数空间 C[a,b]；任意有限个多项式都不能张成全部连续函数</span></div>
+        </div>
+        <aside class="why"><strong>为什么数值分析关心它？</strong><p>数值方法常把无限维问题投影到有限维子空间：选基函数、求有限个系数，再用线性代数计算。有限元、谱方法和插值都从这里开始。</p></aside>
+      </article>
+
+      <article id="metric" class="chapter" data-chapter="02">
+        <header class="chapter-head"><div><p class="eyebrow">Chapter 02</p><h2>度量与完备性：距离决定“趋近”的含义</h2></div><span class="chapter-tag">讲义 11–13</span></header>
+        <div class="split-layout">
+          <section class="concept primary">
+            <h3>度量 d(x,y) 的三条规则</h3>
+            <ol class="rule-list">
+              <li><span>可分辨</span><code>d(x,y)≥0，且 d(x,y)=0 ⇔ x=y</code></li>
+              <li><span>对称</span><code>d(x,y)=d(y,x)</code></li>
+              <li><span>三角不等式</span><code>d(x,z)≤d(x,y)+d(y,z)</code></li>
+            </ol>
+            <p class="plain">度量只回答“两个对象相差多远”，不要求对象能相加，也不要求距离来自坐标。</p>
+          </section>
+          <section class="mini-cards">
+            <div><h3>Hamming 距离</h3><p>两个 0–1 串中不同位置的个数。适合编码与离散数据。</p></div>
+            <div><h3>正数上的对数距离</h3><p><span class="math">d(x,y)=|log x−log y|</span>，衡量相对尺度变化。</p></div>
+            <div><h3>圆周距离</h3><p>取两点沿圆周的较短弧长，体现空间的几何结构。</p></div>
+          </section>
+        </div>
+        <section id="complete" class="deep-dive">
+          <div class="deep-title"><span>Cauchy 序列</span><b>→</b><span>完备空间</span></div>
+          <div class="deep-columns">
+            <div><h3>“内部越来越靠近”</h3><p>对任意 ε&gt;0，从某项开始，序列中任意两项的距离都小于 ε。这个定义不需要提前知道极限是谁。</p><div class="formula">∀ε&gt;0，∃N，n&gt;N,p∈ℕ ⇒ d(xₙ,xₙ₊ₚ)&lt;ε</div></div>
+            <div><h3>“极限仍在本空间”</h3><p>若每个 Cauchy 序列都收敛到空间中的某个点，则空间完备。完备性防止迭代过程逼近一个“不属于当前空间”的对象。</p></div>
+          </div>
+          <p class="insight"><strong>补全的思想：</strong>把彼此差异趋于 0 的 Cauchy 序列视为同一个“新点”，即可把不完备的度量空间嵌入一个完备空间。实数可看作有理数的一种完备化。</p>
+        </section>
+      </article>
+
+      <article id="norm" class="chapter" data-chapter="03">
+        <header class="chapter-head"><div><p class="eyebrow">Chapter 03</p><h2>范数：给“大小”和“误差”一个尺度</h2></div><span class="chapter-tag">讲义 15–20</span></header>
+        <div class="concept-grid three">
+          <section class="concept primary"><h3>范数公理</h3><div class="formula stack"><span>∥x∥≥0，且 ∥x∥=0 ⇔ x=0</span><span>∥αx∥=|α|∥x∥</span><span>∥x+y∥≤∥x∥+∥y∥</span></div><p>范数能生成距离：<span class="math">d(x,y)=∥x−y∥</span>。</p></section>
+          <section class="concept"><h3>ℓ∞ 范数</h3><div class="formula">∥x∥∞=maxᵢ |xᵢ|</div><p>只看最坏分量。适合控制最大误差。</p></section>
+          <section class="concept"><h3>ℓ₁ 范数</h3><div class="formula">∥x∥₁=Σᵢ |xᵢ|</div><p>累计所有分量的绝对量。</p></section>
+          <section class="concept"><h3>ℓ₂ 范数</h3><div class="formula">∥x∥₂=(Σᵢ |xᵢ|²)¹ᐟ²</div><p>欧氏长度；来自标准内积。</p></section>
+          <section class="concept"><h3>函数范数</h3><div class="formula stack"><span>∥f∥∞=max |f(x)|</span><span>∥f∥₁=∫|f(x)|dx</span><span>∥f∥₂=(∫|f(x)|²dx)¹ᐟ²</span></div></section>
+          <section class="concept caution"><h3>同一误差，不同视角</h3><p>一个函数可能在很窄区域出现尖峰：最大范数认为误差很大，积分范数却可能认为总体误差较小。选范数就是选评价标准。</p></section>
+        </div>
+        <section class="equivalence">
+          <h3>范数等价：有限维与无限维的分界</h3>
+          <div class="formula">C₁∥x∥α ≤ ∥x∥β ≤ C₂∥x∥α　（C₁,C₂&gt;0）</div>
+          <p>若两种范数等价，它们产生相同的收敛概念。在有限维空间中任意两个范数都等价；在无限维函数空间中一般不成立。</p>
+          <details><summary>为什么讲义中的 fₘ(x)=((x−a)/L)ᵐ 能说明不等价？</summary><p>它在右端点达到 1，因此 ∥fₘ∥∞=1；但随着 m 增大，函数的非零部分越来越集中，∥fₘ∥₁=L/(m+1)、∥fₘ∥₂=√(L/(2m+1)) 都趋于 0。于是不存在统一的正常数把这些范数双向夹住。</p></details>
+        </section>
+        <aside class="why"><strong>Banach 空间</strong><p>完备的赋范线性空间。许多数值迭代的收敛证明都依赖：近似解构成 Cauchy 序列，而完备性保证极限仍是可接受的解。</p></aside>
+      </article>
+
+      <article id="inner" class="chapter" data-chapter="04">
+        <header class="chapter-head"><div><p class="eyebrow">Chapter 04</p><h2>内积与正交：把“方向”引入误差分析</h2></div><span class="chapter-tag">讲义 22–31</span></header>
+        <div class="concept-grid">
+          <section class="concept primary"><h3>内积提供的额外信息</h3><p>内积 <span class="math">(x,y)</span> 满足正定性、共轭对称性与线性。它能定义长度和正交：</p><div class="formula stack"><span>∥x∥=√(x,x)</span><span>x ⟂ y ⇔ (x,y)=0</span></div><p class="plain">范数只知道“多长”，内积还知道两个方向的关系，因此可以讨论投影、最佳逼近和正交分解。</p></section>
+          <section class="concept"><h3>Cauchy–Schwarz</h3><div class="formula">|(x,y)| ≤ ∥x∥∥y∥</div><p>它保证由内积定义的“夹角”合法，并直接导出范数的三角不等式。</p></section>
+          <section class="concept"><h3>函数内积</h3><div class="formula">(f,g)=∫ₐᵇ f(x)ḡ(x)dx</div><p>复函数情形需要对第二个因子取共轭；实函数时共轭可省略。</p></section>
+        </div>
+        <section id="orthogonal" class="deep-dive">
+          <div class="deep-title"><span>非正交基</span><b>→</b><span>Gram–Schmidt</span><b>→</b><span>正交基</span></div>
+          <div class="deep-columns">
+            <div><h3>正交坐标为何更简单</h3><p>若 <span class="math">x=Σaᵢxᵢ</span> 且基向量两两正交，则每个系数都可独立求出：</p><div class="formula">aᵢ=(x,xᵢ)/(xᵢ,xᵢ)</div><p>没有交叉耦合；这就是投影公式。</p></div>
+            <div><h3>Gram–Schmidt 做了什么</h3><p>依次从新向量中减去它在已有方向上的投影：</p><div class="formula">yᵢ=xᵢ−Σⱼ&lt;ᵢ [(xᵢ,yⱼ)/(yⱼ,yⱼ)]yⱼ</div><p>每一步都保持当前张成空间不变，同时让新方向与旧空间正交。</p></div>
+          </div>
+          <p class="insight"><strong>数值提醒：</strong>经典 Gram–Schmidt 在浮点运算中可能因舍入误差失去正交性；实际计算常用修正 Gram–Schmidt 或 Householder QR。</p>
+        </section>
+
+        <section class="poly-section">
+          <div class="section-heading"><div><p class="eyebrow">Orthogonal Polynomials</p><h3>加权内积与正交多项式</h3></div><p>权函数 ρ(x)&gt;0 决定区间不同位置的重要程度。</p></div>
+          <div class="formula">(f,g)ρ=∫ₐᵇ ρ(x)f(x)g(x)dx</div>
+          <div class="compare-table" role="table" aria-label="Legendre 和 Chebyshev 多项式比较">
+            <div class="table-row table-head" role="row"><span>族</span><span>权函数</span><span>定义 / 递推</span><span>关键性质</span></div>
+            <div class="table-row" role="row"><strong>Legendre Pₙ</strong><span>ρ(x)=1</span><span>(n+1)Pₙ₊₁=(2n+1)xPₙ−nPₙ₋₁</span><span>在 [−1,1] 上等权正交</span></div>
+            <div class="table-row" role="row"><strong>Chebyshev Tₙ</strong><span>ρ(x)=1/√(1−x²)</span><span>Tₙ(x)=cos(n arccos x)</span><span>零点适合构造稳定插值节点</span></div>
+          </div>
+          <p class="plain"><strong>为什么重要：</strong>正交多项式让逼近系数彼此解耦；合适的零点还能构造高精度求积和抑制插值端点振荡。</p>
+        </section>
+      </article>
+
+      <article id="matrix" class="chapter" data-chapter="05">
+        <header class="chapter-head"><div><p class="eyebrow">Chapter 05</p><h2>矩阵范数：矩阵把向量放大多少</h2></div><span class="chapter-tag">讲义 33–42</span></header>
+        <section class="matrix-overview">
+          <div class="matrix-core"><span>输入 x</span><b>→</b><span class="matrix-a">A</span><b>→</b><span>输出 Ax</span></div>
+          <p>矩阵范数不仅要像向量范数一样衡量“大小”，还要与乘法相容：<span class="math">∥AB∥≤∥A∥∥B∥</span>。这样才能连续估计多步运算中的误差传播。</p>
+        </section>
+        <div class="concept-grid three">
+          <section class="concept"><h3>Frobenius 范数</h3><div class="formula">∥A∥F=(Σᵢⱼ |aᵢⱼ|²)¹ᐟ²</div><p>把矩阵全部元素排成长向量后取 2-范数。易计算，并满足次乘性。</p></section>
+          <section class="concept primary"><h3>诱导范数 / 算子范数</h3><div class="formula">∥A∥=supₓ≠0 ∥Ax∥/∥x∥ = sup∥x∥=1 ∥Ax∥</div><p>它就是矩阵对单位向量的最大放大倍数，因此天然满足 <span class="math">∥Ax∥≤∥A∥∥x∥</span>。</p></section>
+          <section class="concept"><h3>常用诱导范数</h3><div class="formula stack"><span>∥A∥∞=最大绝对行和</span><span>∥A∥₁=最大绝对列和</span><span>∥A∥₂=√ρ(AᴴA)</span></div></section>
+        </div>
+        <section class="spectral">
+          <div><p class="eyebrow">Spectral Radius</p><h3>谱半径是无法绕开的下界</h3><p>谱半径 <span class="math">ρ(A)=max |λᵢ|</span>。对任意矩阵范数都有：</p><div class="formula accent">ρ(A) ≤ ∥A∥</div></div>
+          <div class="spectral-note"><p>若 Ax=λx，那么在特征向量方向上，A 的放大倍数就是 |λ|；矩阵范数作为“最大放大”不可能比它小。</p><p>进一步，对任意 ε&gt;0，总能选择一种诱导范数，使 <span class="math">∥A∥≤ρ(A)+ε</span>。这说明谱半径几乎是所有可能范数中最紧的尺度。</p></div>
+        </section>
+        <section class="stability-cards">
+          <div><span class="index">I</span><h3>逆矩阵的存在性</h3><p>若 <span class="math">∥B∥&lt;1</span>，则 <span class="math">I+B</span> 可逆，并且</p><div class="formula">∥(I+B)⁻¹∥ ≤ 1/(1−∥B∥)</div></div>
+          <div><span class="index">II</span><h3>可逆性对扰动的稳定</h3><p>若 A 可逆且</p><div class="formula">∥C−A∥ &lt; 1/∥A⁻¹∥</div><p>则 C 仍可逆，且 <span class="math">∥C⁻¹∥≤∥A⁻¹∥/[1−∥A⁻¹∥∥C−A∥]</span>。</p></div>
+        </section>
+        <aside class="why"><strong>这里已经接近条件数</strong><p>∥A⁻¹∥ 大意味着允许的扰动半径很小；小改动就可能显著改变解。后续线性方程组的条件数 κ(A)=∥A∥∥A⁻¹∥ 正是对这种敏感性的量化。</p></aside>
+      </article>
+
+      <section class="summary section-card" aria-labelledby="summary-title">
+        <div class="section-heading"><div><p class="eyebrow">One-page Review</p><h2 id="summary-title">一页复习：概念之间怎么接起来</h2></div></div>
+        <ol class="summary-flow">
+          <li><strong>线性空间</strong><span>规定可计算对象与线性组合</span></li>
+          <li><strong>度量</strong><span>定义距离、收敛与 Cauchy 性</span></li>
+          <li><strong>范数</strong><span>从“大小”得到距离；统一描述误差</span></li>
+          <li><strong>完备性</strong><span>保证迭代极限不逃出空间</span></li>
+          <li><strong>内积</strong><span>引入角度、正交、投影与最佳逼近</span></li>
+          <li><strong>矩阵范数</strong><span>控制算子放大、误差传播与扰动稳定性</span></li>
+        </ol>
+        <div class="checklist">
+          <h3>自测问题</h3>
+          <details><summary>1. 为什么所有内积都能诱导范数，但并非所有范数都来自内积？</summary><p>内积通过 ∥x∥=√(x,x) 自动满足范数公理；反过来，只有满足平行四边形恒等式的范数才能由某个内积诱导。</p></details>
+          <details><summary>2. 有限维空间中范数等价意味着什么？</summary><p>换一种范数会改变误差数值，却不会改变一个序列是否收敛；常数因子也可被统一控制。</p></details>
+          <details><summary>3. 为什么诱导矩阵范数最适合分析误差传播？</summary><p>因为它直接以最大放大倍数定义，并自动给出 ∥Ax∥≤∥A∥∥x∥ 和 ∥AB∥≤∥A∥∥B∥。</p></details>
+          <details><summary>4. ∥B∥&lt;1 为什么能保证 I+B 可逆？</summary><p>若不可逆，则 −1 是 B 的特征值，因而 ρ(B)≥1；但 ρ(B)≤∥B∥&lt;1，矛盾。也可由 Neumann 级数 (I+B)⁻¹=I−B+B²−⋯ 理解。</p></details>
+        </div>
+      </section>
+
+      <footer>
+        <p>根据课程讲义《数学基础》（MathBasics.pdf）整理 · 公式与结论以讲义为主，补充说明用于理解与复习。</p>
+        <a href="#top">回到顶部 ↑</a>
+      </footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
