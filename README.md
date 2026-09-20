@@ -8,12 +8,13 @@
 - 内积、Cauchy–Schwarz、Gram–Schmidt 与正交多项式
 - 矩阵范数、诱导范数、谱半径与扰动稳定性
 
-网页版现已收录 PDF 的全部 59 页幻灯片。每页均配有内容概括、概念分析；定义、例题和关键推导页还增加了可计算示例。
+网页版包含两个阅读入口：概念主页提供结构关系、分步例题、误区辨析和术语速查；逐页讲解页收录 PDF 的全部 59 页幻灯片，每页均配有内容概括、概念分析和适当的可计算示例。
 
 ## 使用方式
 
 - 在线阅读：[https://yangc1222.github.io/Course/](https://yangc1222.github.io/Course/)
 - 网页版：打开 [`dist/index.html`](dist/index.html)
+- 59 页逐页讲解：打开 [`dist/slides.html`](dist/slides.html)
 - 纯文本笔记：阅读 [`STUDY_NOTES.md`](STUDY_NOTES.md)
 
 网页为纯静态 HTML/CSS/JavaScript，不需要安装依赖，可直接部署到 GitHub Pages。
