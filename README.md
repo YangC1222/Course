@@ -10,6 +10,7 @@
 
 ## 使用方式
 
+- 在线阅读：[https://yangc1222.github.io/Course/](https://yangc1222.github.io/Course/)
 - 网页版：打开 [`dist/index.html`](dist/index.html)
 - 纯文本笔记：阅读 [`STUDY_NOTES.md`](STUDY_NOTES.md)
 
