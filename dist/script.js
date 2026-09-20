@@ -21,3 +21,45 @@ if ('IntersectionObserver' in window) {
   }, { rootMargin: '-20% 0px -60% 0px', threshold: [0, .2, .5] });
   chapters.forEach(chapter => observer.observe(chapter));
 }
+
+const slideReader = document.querySelector('#slideReader');
+if (slideReader && Array.isArray(window.slideNotes)) {
+  let currentChapter = '';
+  const fragment = document.createDocumentFragment();
+
+  window.slideNotes.forEach(note => {
+    if (note.ch !== currentChapter) {
+      currentChapter = note.ch;
+      const divider = document.createElement('div');
+      divider.className = 'slide-chapter-divider';
+      divider.innerHTML = `<span>${currentChapter}</span><i></i>`;
+      fragment.appendChild(divider);
+    }
+
+    const page = document.createElement('article');
+    page.className = 'slide-page';
+    page.id = `slide-page-${note.p}`;
+    const imageNumber = String(note.p).padStart(2, '0');
+    const example = note.example
+      ? `<div class="slide-example"><strong>补充示例</strong><p>${note.example}</p></div>`
+      : '';
+    page.innerHTML = `
+      <a class="slide-image-link" href="slides/page-${imageNumber}.jpg" target="_blank" rel="noopener" aria-label="查看第 ${note.p} 页幻灯片大图">
+        <img src="slides/page-${imageNumber}.jpg" loading="lazy" decoding="async" alt="MathBasics 第 ${note.p} 页：${note.title}">
+        <span>点击查看大图</span>
+      </a>
+      <div class="slide-analysis">
+        <div class="slide-meta"><span>PDF ${imageNumber} / 59</span><em>${note.kind}</em></div>
+        <h3>${note.title}</h3>
+        <div class="analysis-block"><strong>本页内容</strong><p>${note.summary}</p></div>
+        <div class="analysis-block key"><strong>理解与分析</strong><p>${note.analysis}</p></div>
+        ${example}
+      </div>`;
+    fragment.appendChild(page);
+  });
+
+  slideReader.appendChild(fragment);
+  if (location.hash.startsWith('#slide-page-')) {
+    requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
+  }
+}
