@@ -6,7 +6,7 @@
   <meta name="description" content="《高等数值分析》数学基础知识笔记：线性空间、度量、范数、内积、正交多项式与矩阵范数。">
   <title>高等数值分析 · 数学基础知识笔记</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1f33'/%3E%3Cpath d='M14 45L25 18l9 23 7-16 9 20' fill='none' stroke='%236ed6c6' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -15,10 +15,11 @@
       <span class="brand-mark">∥·∥</span>
       <span>高等数值分析</span>
     </a>
-    <nav class="topnav" aria-label="章节导航">
-      <a href="#map">知识图谱</a><a href="#slides">逐页讲解</a><a href="#linear">线性空间</a><a href="#metric">度量与完备性</a>
-      <a href="#norm">范数</a><a href="#inner">内积与正交</a><a href="#matrix">矩阵范数</a>
+    <nav class="topnav" id="topnav" aria-label="章节导航">
+      <a href="#start">从这里开始</a><a href="#map">知识图谱</a><a href="#worked">分步例题</a>
+      <a href="#linear">核心概念</a><a href="slides.html">59 页逐页讲解 ↗</a>
     </nav>
+    <details class="mobile-nav"><summary>目录</summary><nav aria-label="移动端章节导航"><a href="#start">从这里开始</a><a href="#map">知识图谱</a><a href="#worked">分步例题</a><a href="#linear">核心概念</a><a href="slides.html">59 页逐页讲解</a></nav></details>
     <button id="focusToggle" class="focus-button" type="button" aria-pressed="false">专注阅读</button>
   </header>
 
@@ -27,6 +28,7 @@
       <div class="rail-card">
         <p class="eyebrow">建议顺序</p>
         <ol class="progress-list">
+          <li><a href="#start"><span>00</span>先拆开概念</a></li>
           <li><a href="#linear"><span>01</span>对象与结构</a></li>
           <li><a href="#metric"><span>02</span>距离与极限</a></li>
           <li><a href="#norm"><span>03</span>大小与误差</a></li>
@@ -46,10 +48,35 @@
           <p class="eyebrow">Math Basics · 课程讲义整理</p>
           <h1 id="intro-title">从“空间”到“稳定性”</h1>
           <p class="lede">这份笔记不是公式清单，而是一张结构图：每引入一种数学结构，都回答一个数值分析中更具体的问题。</p>
+          <div class="intro-actions"><a class="action-primary" href="#start">从概念关系开始</a><a href="#worked">直接看分步例题</a><a href="slides.html">打开逐页讲解</a></div>
         </div>
         <div class="question-stack" aria-label="核心问题">
           <span>什么对象可以相加？</span><span>两个对象相差多远？</span><span>误差有多大？</span>
           <span>如何投影与逼近？</span><span>矩阵会把误差放大多少？</span>
+        </div>
+      </section>
+
+      <section id="start" class="learning-hub section-card" aria-labelledby="start-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Start Here</p><h2 id="start-title">先回答：这些概念为什么一个接一个出现？</h2></div>
+          <p>每增加一种结构，数学对象就多一种可讨论的性质。不要同时背六组定义，先看它们各自解决什么问题。</p>
+        </div>
+        <div class="structure-ladder" aria-label="六层数学结构">
+          <a href="#linear"><b>集合</b><span>有哪些对象？</span><small>只有成员关系</small></a>
+          <a href="#linear"><b>线性空间</b><span>能怎样组合？</span><small>增加加法与数乘</small></a>
+          <a href="#metric"><b>度量空间</b><span>相差多远？</span><small>增加距离</small></a>
+          <a href="#norm"><b>赋范空间</b><span>自身多大？</span><small>增加大小尺度</small></a>
+          <a href="#inner"><b>内积空间</b><span>方向关系？</span><small>增加角度与投影</small></a>
+          <a href="#matrix"><b>矩阵空间</b><span>放大多少？</span><small>研究线性算子</small></a>
+        </div>
+
+        <div class="confusion-grid">
+          <article><span>01</span><h3>“空间”不是物理空间</h3><p>这里的空间是“对象集合 + 运算规则”。只要函数能够相加和数乘，函数也可以是向量。</p><a href="#linear">看线性空间 →</a></article>
+          <article><span>02</span><h3>度量、范数、内积谁更强？</h3><p>内积能产生范数，范数能产生度量；反方向一般不成立。信息量依次是：内积 &gt; 范数 &gt; 度量。</p><a href="#compare-structures">看三者对照 →</a></article>
+          <article><span>03</span><h3>Cauchy 与收敛差在哪里？</h3><p>收敛需要知道极限点；Cauchy 只检查序列后部是否互相靠近。完备性负责保证极限确实存在于空间内。</p><a href="#complete">看完备性 →</a></article>
+          <article><span>04</span><h3>正交为什么比无关更好？</h3><p>正交一定线性无关，而且展开系数可以单独计算，不需要解耦合方程组。</p><a href="#orthogonal">看正交化 →</a></article>
+          <article><span>05</span><h3>矩阵范数和谱半径一样吗？</h3><p>谱半径只看特征方向；诱导范数看所有方向中的最大放大。总有 ρ(A)≤∥A∥。</p><a href="#matrix">看矩阵范数 →</a></article>
+          <article><span>06</span><h3>“稳定”到底稳定什么？</h3><p>输入或矩阵发生小扰动时，输出不应发生失控的大变化。逆矩阵范数越大，问题通常越敏感。</p><a href="#stability">看扰动分析 →</a></article>
         </div>
       </section>
 
@@ -83,23 +110,82 @@
         <div class="map-legend"><span><i class="dot core-dot"></i>主干结构</span><span><i class="dot"></i>派生结构</span><span>→ 结构增加，能讨论的问题也增加</span></div>
       </section>
 
-      <section id="slides" class="slide-section section-card" aria-labelledby="slides-title">
-        <div class="section-heading slide-heading">
-          <div><p class="eyebrow">Slide-by-slide Reader</p><h2 id="slides-title">59 页讲义逐页讲解</h2></div>
-          <p>左侧保留原始幻灯片，右侧说明本页重点、推理位置与补充例题。点击幻灯片可查看清晰大图。</p>
-        </div>
-        <nav class="slide-index" aria-label="逐页讲解章节索引">
-          <a href="#slide-page-1">封面</a><a href="#slide-page-2">线性空间 · 2</a><a href="#slide-page-10">度量 · 10</a>
-          <a href="#slide-page-14">范数 · 14</a><a href="#slide-page-21">内积 · 21</a><a href="#slide-page-37">矩阵空间 · 37</a>
-        </nav>
-        <div class="slide-reader" id="slideReader" aria-live="polite"></div>
-      </section>
-
       <section class="bridge">
         <div><span>线性空间</span><small>能做线性组合</small></div><b>＋</b>
         <div><span>范数</span><small>能衡量大小</small></div><b>＋</b>
         <div><span>完备性</span><small>极限不会跑出空间</small></div><b>＝</b>
         <div class="result"><span>Banach 空间</span><small>迭代分析的基本舞台</small></div>
+      </section>
+
+      <section id="compare-structures" class="compare-structures section-card" aria-labelledby="compare-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Do Not Mix Them Up</p><h2 id="compare-title">度量、范数、内积：同一对象的三层信息</h2></div>
+          <p>它们不是三个互不相关的公式，而是一条“信息逐渐增加”的链。</p>
+        </div>
+        <div class="compare-chain">
+          <article><span class="compare-symbol">d(x,y)</span><h3>度量：比较两个对象</h3><p>只告诉你 x 与 y 相差多远。对象不一定能相加，所以一般不能写 x-y。</p><ul><li>能定义：邻域、连续、收敛</li><li>例子：Hamming 距离</li><li>不一定有：长度、角度</li></ul></article>
+          <b>← 由 ∥x-y∥ 产生</b>
+          <article><span class="compare-symbol">∥x∥</span><h3>范数：衡量单个对象</h3><p>先衡量 x 的大小，再用 ∥x-y∥ 衡量差距，因此必须有线性结构。</p><ul><li>能定义：绝对误差、相对误差</li><li>例子：1、2、∞ 范数</li><li>不一定有：正交与投影</li></ul></article>
+          <b>← 由 √(x,x) 产生</b>
+          <article><span class="compare-symbol">(x,y)</span><h3>内积：比较方向关系</h3><p>除了长度，还能判断两个方向是否正交，以及一个向量在另一个方向上的分量。</p><ul><li>能定义：角度、投影、正交</li><li>例子：点积、积分内积</li><li>直接支持：最小二乘逼近</li></ul></article>
+        </div>
+        <div class="memory-rule"><strong>记忆规则</strong><span>距离问“两个对象差多少”；范数问“一个对象有多大”；内积问“两个方向有多像”。</span></div>
+      </section>
+
+      <section id="worked" class="worked-section" aria-labelledby="worked-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Worked Examples</p><h2 id="worked-title">四个分步例题，把定义变成操作</h2></div>
+          <p>每题都按照“先判断对象—再选定义—最后解释结果”的顺序。</p>
+        </div>
+        <div class="worked-grid">
+          <article class="worked-card">
+            <header><span>例 1</span><div><small>线性空间</small><h3>判断一个集合是不是子空间</h3></div></header>
+            <p class="problem">设 V={(x,y)∈ℝ² : x+y=0}。判断 V 是否为 ℝ² 的线性子空间。</p>
+            <ol class="solution-steps">
+              <li><b>检查零向量</b><p>(0,0) 满足 0+0=0，所以零向量在 V 中。</p></li>
+              <li><b>检查加法封闭</b><p>若 x₁+y₁=0、x₂+y₂=0，则 (x₁+x₂)+(y₁+y₂)=0。</p></li>
+              <li><b>检查数乘封闭</b><p>若 x+y=0，则 αx+αy=α(x+y)=0。</p></li>
+            </ol>
+            <div class="answer"><b>结论</b> V 是子空间。它其实是一条过原点的直线，基可取 {(1,-1)}，维数为 1。</div>
+            <p class="pitfall"><b>易错点：</b>{x+y=1} 不是子空间，因为不含零向量；“看起来是一条直线”还不够，必须过原点并对运算封闭。</p>
+          </article>
+
+          <article class="worked-card">
+            <header><span>例 2</span><div><small>向量范数</small><h3>同一个误差为何有三种大小</h3></div></header>
+            <p class="problem">误差向量 e=(1,-2,2)。分别计算 ∥e∥₁、∥e∥₂、∥e∥∞。</p>
+            <ol class="solution-steps">
+              <li><b>累计误差</b><p>∥e∥₁=|1|+|-2|+|2|=5。</p></li>
+              <li><b>能量式误差</b><p>∥e∥₂=√(1²+(-2)²+2²)=3。</p></li>
+              <li><b>最坏分量误差</b><p>∥e∥∞=max{1,2,2}=2。</p></li>
+            </ol>
+            <div class="answer"><b>怎么选</b> 要保证每个分量都不过界，用 ∞-范数；关心总偏差，用 1-范数；平方误差或几何长度常用 2-范数。</div>
+            <p class="pitfall"><b>易错点：</b>数值不同不表示互相矛盾。范数是在回答不同的误差评价问题。</p>
+          </article>
+
+          <article class="worked-card">
+            <header><span>例 3</span><div><small>正交化</small><h3>手算一次 Gram-Schmidt</h3></div></header>
+            <p class="problem">将 x₁=(1,1)、x₂=(1,0) 正交化。</p>
+            <ol class="solution-steps">
+              <li><b>保留第一个方向</b><p>y₁=x₁=(1,1)，且 (y₁,y₁)=2。</p></li>
+              <li><b>求 x₂ 在 y₁ 上的投影</b><p>proj<sub>y₁</sub>x₂=[(x₂,y₁)/(y₁,y₁)]y₁=(1/2)(1,1)。</p></li>
+              <li><b>减掉已有方向</b><p>y₂=x₂-proj<sub>y₁</sub>x₂=(1/2,-1/2)。检验 (y₁,y₂)=0。</p></li>
+            </ol>
+            <div class="answer"><b>结果</b> {y₁,y₂} 与原向量组张成同一平面，但现在两方向正交。归一化后可得到标准正交基。</div>
+            <p class="pitfall"><b>易错点：</b>分母是 (y₁,y₁)，不是 ∥y₁∥；若写范数，分母应是 ∥y₁∥²。</p>
+          </article>
+
+          <article class="worked-card" id="stability">
+            <header><span>例 4</span><div><small>矩阵稳定性</small><h3>一个小扰动是否会破坏可逆性</h3></div></header>
+            <p class="problem">已知 A 可逆、∥A⁻¹∥=4，并有 ∥C-A∥=0.1。判断 C 是否一定可逆并估计 ∥C⁻¹∥。</p>
+            <ol class="solution-steps">
+              <li><b>计算允许的扰动半径</b><p>1/∥A⁻¹∥=1/4=0.25。</p></li>
+              <li><b>比较扰动</b><p>0.1&lt;0.25，满足讲义中的充分条件，因此 C 一定可逆。</p></li>
+              <li><b>代入上界</b><p>∥C⁻¹∥≤4/[1-4×0.1]=4/0.6=20/3。</p></li>
+            </ol>
+            <div class="answer"><b>解释</b> ∥A⁻¹∥ 越大，保证可逆所允许的扰动越小；这就是病态问题对数据敏感的前兆。</div>
+            <p class="pitfall"><b>易错点：</b>条件不满足时只能说“定理无法保证”，不能直接断言 C 不可逆。</p>
+          </article>
+        </div>
       </section>
 
       <article id="linear" class="chapter" data-chapter="01">
@@ -226,6 +312,41 @@
         <aside class="why"><strong>这里已经接近条件数</strong><p>∥A⁻¹∥ 大意味着允许的扰动半径很小；小改动就可能显著改变解。后续线性方程组的条件数 κ(A)=∥A∥∥A⁻¹∥ 正是对这种敏感性的量化。</p></aside>
       </article>
 
+      <section class="misconceptions section-card" aria-labelledby="mistake-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">Common Misconceptions</p><h2 id="mistake-title">常见误区：一句话错在哪里</h2></div>
+          <p>真正理解一个概念，往往体现在能否识别“看起来很像”的错误说法。</p>
+        </div>
+        <div class="mistake-list">
+          <article><b>“只要能相加，就是线性空间。”</b><p>还需要数乘封闭，并满足零元、逆元、分配律等全部公理；同时必须说明标量域。</p></article>
+          <article><b>“Cauchy 序列一定收敛。”</b><p>只有在完备空间中才成立。在 ℚ 中逼近 √2 的有理序列是 Cauchy 序列，却没有有理极限。</p></article>
+          <article><b>“有限维中所有范数的数值都一样。”</b><p>有限维范数只是等价，意味着能被固定常数双向控制；具体数值一般不同。</p></article>
+          <article><b>“∥f∥₂=0 表示 f 每一点都为 0。”</b><p>在连续函数空间中可以这样推出；在一般 L² 空间中只能推出 f 几乎处处为 0。</p></article>
+          <article><b>“线性无关就等于正交。”</b><p>正交非零向量一定线性无关，但线性无关的向量可以有明显夹角，不必正交。</p></article>
+          <article><b>“Frobenius 范数就是矩阵 2-范数。”</b><p>前者是所有元素平方和的平方根；后者是最大奇异值。通常 ∥A∥₂≤∥A∥F，但不相等。</p></article>
+          <article><b>“谱半径就是矩阵的最大放大率。”</b><p>只有对正规矩阵的 2-范数等特殊情形才直接相等；一般最大放大由诱导范数描述。</p></article>
+          <article><b>“扰动定理的条件不满足，矩阵就不可逆。”</b><p>该条件是充分条件而非必要条件。不满足只代表这个定理不给结论。</p></article>
+        </div>
+      </section>
+
+      <section class="glossary section-card" aria-labelledby="glossary-title">
+        <div class="section-heading"><div><p class="eyebrow">Quick Reference</p><h2 id="glossary-title">术语速查</h2></div><p>遇到陌生术语时，先看它回答的问题，再回到正式定义。</p></div>
+        <dl class="glossary-grid">
+          <div><dt>数域 Field</dt><dd>允许做加、减、乘、除（除数非零）的标量集合，如 ℝ、ℂ。</dd></div>
+          <div><dt>张成 Span</dt><dd>一组向量所有可能线性组合构成的集合。</dd></div>
+          <div><dt>基 Basis</dt><dd>既无冗余又能张成整个空间的一组向量。</dd></div>
+          <div><dt>度量 Metric</dt><dd>满足正定、对称和三角不等式的距离函数。</dd></div>
+          <div><dt>Cauchy 序列</dt><dd>序列后部任意两项都可以彼此任意接近。</dd></div>
+          <div><dt>完备 Complete</dt><dd>每个 Cauchy 序列都在本空间内拥有极限。</dd></div>
+          <div><dt>范数 Norm</dt><dd>满足正定、齐次和三角不等式的大小函数。</dd></div>
+          <div><dt>Banach 空间</dt><dd>完备的赋范线性空间。</dd></div>
+          <div><dt>内积 Inner product</dt><dd>衡量两个方向关系并可产生长度的二元运算。</dd></div>
+          <div><dt>正交 Orthogonal</dt><dd>内积为 0；表示两个方向没有投影分量。</dd></div>
+          <div><dt>诱导范数</dt><dd>矩阵对单位向量所能造成的最大放大倍数。</dd></div>
+          <div><dt>谱半径</dt><dd>矩阵所有特征值模的最大值。</dd></div>
+        </dl>
+      </section>
+
       <section class="summary section-card" aria-labelledby="summary-title">
         <div class="section-heading"><div><p class="eyebrow">One-page Review</p><h2 id="summary-title">一页复习：概念之间怎么接起来</h2></div></div>
         <ol class="summary-flow">
@@ -251,7 +372,6 @@
       </footer>
     </main>
   </div>
-  <script src="slides-data.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

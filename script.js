@@ -5,6 +5,12 @@ focusButton?.addEventListener('click', () => {
   focusButton.textContent = active ? '退出专注' : '专注阅读';
 });
 
+document.querySelectorAll('.mobile-nav nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    link.closest('details')?.removeAttribute('open');
+  });
+});
+
 const chapterLinks = [...document.querySelectorAll('.progress-list a')];
 const chapters = [...document.querySelectorAll('.chapter')];
 if ('IntersectionObserver' in window) {
@@ -60,6 +66,6 @@ if (slideReader && Array.isArray(window.slideNotes)) {
 
   slideReader.appendChild(fragment);
   if (location.hash.startsWith('#slide-page-')) {
-    requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
+    setTimeout(() => document.querySelector(location.hash)?.scrollIntoView(), 0);
   }
 }
