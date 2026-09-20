@@ -16,7 +16,7 @@
       <span>高等数值分析</span>
     </a>
     <nav class="topnav" aria-label="章节导航">
-      <a href="#map">知识图谱</a><a href="#linear">线性空间</a><a href="#metric">度量与完备性</a>
+      <a href="#map">知识图谱</a><a href="#slides">逐页讲解</a><a href="#linear">线性空间</a><a href="#metric">度量与完备性</a>
       <a href="#norm">范数</a><a href="#inner">内积与正交</a><a href="#matrix">矩阵范数</a>
     </nav>
     <button id="focusToggle" class="focus-button" type="button" aria-pressed="false">专注阅读</button>
@@ -81,6 +81,18 @@
           </svg>
         </div>
         <div class="map-legend"><span><i class="dot core-dot"></i>主干结构</span><span><i class="dot"></i>派生结构</span><span>→ 结构增加，能讨论的问题也增加</span></div>
+      </section>
+
+      <section id="slides" class="slide-section section-card" aria-labelledby="slides-title">
+        <div class="section-heading slide-heading">
+          <div><p class="eyebrow">Slide-by-slide Reader</p><h2 id="slides-title">59 页讲义逐页讲解</h2></div>
+          <p>左侧保留原始幻灯片，右侧说明本页重点、推理位置与补充例题。点击幻灯片可查看清晰大图。</p>
+        </div>
+        <nav class="slide-index" aria-label="逐页讲解章节索引">
+          <a href="#slide-page-1">封面</a><a href="#slide-page-2">线性空间 · 2</a><a href="#slide-page-10">度量 · 10</a>
+          <a href="#slide-page-14">范数 · 14</a><a href="#slide-page-21">内积 · 21</a><a href="#slide-page-37">矩阵空间 · 37</a>
+        </nav>
+        <div class="slide-reader" id="slideReader" aria-live="polite"></div>
       </section>
 
       <section class="bridge">
@@ -239,6 +251,7 @@
       </footer>
     </main>
   </div>
+  <script src="slides-data.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
